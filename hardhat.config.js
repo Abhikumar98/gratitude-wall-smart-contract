@@ -37,3 +37,6 @@ module.exports = {
 		apiKey: process.env.ETHERSCAN_API_KEY,
 	},
 };
+
+// To verify the contract:
+// npx hardhat verify --network rinkeby contract_address
