@@ -19,10 +19,12 @@ contract GratitudeWall {
         console.log("Lets get started");
     }
 
-    function addGratitude(address _to, string memory _message, uint256 _amount) public {
-        Gratitude memory newGratitude = Gratitude(msg.sender, _to, _message, block.timestamp, _amount);
+    function addGratitude(address _to, string memory _message) payable public {
+        require(msg.value > 0, "You must send a positive amount of ether");
+        Gratitude memory newGratitude = Gratitude(msg.sender, _to, _message, block.timestamp, msg.value);
         gratitude.push(newGratitude);
-        emit GratitudeEvent(msg.sender, _to, _message, block.timestamp, _amount);
+        emit GratitudeEvent(msg.sender, _to, _message, block.timestamp, msg.value);
+        payable(_to).transfer(msg.value);
     }
 
     function getAllGratiude() public view returns(Gratitude[] memory) {
